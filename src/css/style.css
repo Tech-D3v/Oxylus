@@ -26,3 +26,11 @@
   width: 100%;
   background: black;
 }
+
+.product .input-group input{
+  text-align: center;
+}
+.product .input-group span
+{
+  cursor: pointer;
+}
