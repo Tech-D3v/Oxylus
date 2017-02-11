@@ -10,7 +10,10 @@
     <script src="js/shopscript.js"></script>
     <script>
       $(document).ready(function(){
-        printShopHTML('#shoplist');
+        printShopHTML('#shoplist', '#categories');
+        $(window).resize(function(){
+          resizeCards('#shoplist');
+      })
     });
     </script>
   </head>
@@ -35,12 +38,18 @@
       </button>
       <div class="collapse navbar-collapse" id="shopNavbar">
         <div class="navbar-nav">
-            <a class="nav-item nav-link" href="index.php">Filter</a>
+          <a class="nav-item nav-link">Basket</a>
         </div>
       </div>
     </nav>
-    <div class="container"
-    <div class="container" id="shoplist" style="width: 63%;">
+    <div class="container-fluid">
+      <div class="card card-block filtercategories">
+        <h4>Filter</h4>
+        <div id="categories">
+        </div>
+      </div>
+    <div id="shoplist" style="width: 80%; float: right; margin-right: 2%;">
     </div>
+  </div>
   </body>
 </html>

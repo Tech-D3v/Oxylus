@@ -34,3 +34,38 @@
 {
   cursor: pointer;
 }
+
+.product
+{
+  position: relative;
+}
+.product .input-group
+{
+  position: absolute;
+  bottom: 5px;
+  width: 90%;
+  left: 5%;
+}
+#slider-range
+{
+  margin-bottom: 20px;
+  position: relative;
+}
+#slider-range p
+{
+  position: absolute;
+  top: 100%;
+}
+#slider-range p:hover{
+  color: black;
+}
+#slider-range p:active
+{
+  color: black;
+}
+.filtercategories
+{
+  position: absolute;
+  z-index: 9999;
+  width: 17%;
+}
