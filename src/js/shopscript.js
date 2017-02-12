@@ -25,14 +25,14 @@ function printShopHTML(shopID, filterID) {
 }
 
 function printShopData(id) {
-    var html = '<div class="d-flex flex-wrap align-content-end flex-row row">';
+    var html = '<div class="d-flex flex-wrap align-content-end flex-row">';
     $.each(shopData, function(key, val) {
         html += '<div class="card product p-2" id="product' + val.ProductID + '">';
-        html += '<img class="card-img-top" src="' + val.ProductImagePath + '" alt="' + val.ProductName + '" style="height: 12em; width: 100%">';
+        html += '<img class="card-img-top' + val.ProductID + '" src="' + val.ProductImagePath + '" alt="' + val.ProductName + '" onclick="storeItem(' + val.ProductID + ');" style="height: 12em; width: 100%">';
         html += '<div class="card-block">';
-        html += '<h4 class="card-title">' + val.ProductName + '</h4>';
-        html += '<h6 class="card subtitle mb-2 text-muted">' + currencyUnit + val.ProductPrice + '</h6>';
-        html += '<p class="card-text">' + val.ProductBasicDescription + '</p>';
+        html += '<h4 class="card-title' + val.ProductID + '" onclick="storeItem(' + val.ProductID + ');">' + val.ProductName + '</h4>';
+        html += '<h6 class="card subtitle mb-2 text-muted clickable' + val.ProductID + '">' + currencyUnit + val.ProductPrice + '</h6>';
+        html += '<p class="card-text' + val.ProductID + '">' + val.ProductBasicDescription + '</p>';
         html += '<div class="input-group"><span class="input-group-addon" id="add-quantity' + val.ProductID + '" onclick="increaseQuantity(' + val.ProductID + ');">+</span><input type="text" value="1" id="quantity' + val.ProductID + '" class="form-control" aria-describedby="add-quantity' + val.ProductID + '"><span class="input-group-addon" id="remove-quantity' + val.ProductID + '" onclick="decreaseQuantity(' + val.ProductID + ');">-</span>';
         html += '<div class="input-group-btn"><button onclick="addToBasket(' + val.ProductID + ');" class="btn btn-primary p-2" style="cursor: pointer;">Add to Basket</button></div></div>';
         html += '</div></div>';
@@ -40,6 +40,52 @@ function printShopData(id) {
     html += '</div>';
     $(id).html(html);
     resizeCards(id);
+    printBasket();
+}
+
+function storeItem(id) {
+    window.location.href = "storeitem.php?id=" + id;
+}
+
+function printBasket() {
+    var basket = JSON.parse(localStorage.getItem("basket"));
+    $("#basket").html('<span class="badge badge-default">' + basket.length + "</span> Basket");
+}
+
+function addToBasket(id) {
+    basket = null;
+    if (localStorage.getItem("basket") != null) {
+        basket = JSON.parse(localStorage.getItem("basket"));
+        var quantity = parseInt($("#quantity" + id).val());
+        var index = -1;
+        $.each(basket, function(key, val) {
+            if (val.id == id) {
+                quantity += val.quantity;
+                index = key;
+            }
+        });
+        if (index == -1) {
+            basket.push({
+                id: id,
+                quantity: quantity
+            });
+        } else {
+            basket[index] = {
+                id: id,
+                quantity: quantity,
+            };
+        }
+        localStorage.setItem("basket", JSON.stringify(basket));
+    } else {
+        basket = [];
+        var quantity = parseInt($("#quantity" + id).val());
+        basket.push({
+            id: id,
+            quantity: quantity,
+        });
+        localStorage.setItem("basket", JSON.stringify(basket));
+    }
+    $("#basket").html('<span class="badge badge-default">' + basket.length + "</span> Basket");
 }
 
 

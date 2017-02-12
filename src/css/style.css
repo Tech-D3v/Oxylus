@@ -1,71 +1,93 @@
+@media (min-width: 992px) {
+    #shoplist {
+        width: 80%;
+        float: right;
+        margin-right: 2%;
+    }
+    .filtercategories {
+        position: absolute;
+        z-index: 9999;
+        width: 17%;
+    }
+    .nav-link::after {
+        content: '';
+        display: block;
+        margin: auto;
+        height: 3px;
+        width: 0px;
+        background: transparent;
+        transition: width .3s ease, background-color .3s ease;
+    }
+
+    .nav-link:hover::after {
+        width: 100%;
+        background: black;
+    }
+}
+
+@media(max-width: 991px) {
+    #shoplist {
+        margin-top: 1em;
+        display: block;
+        z-index: 0;
+        width: 100%;
+    }
+    .filtercategories {
+        width: 96%;
+        display: block;
+    }
+    .product{
+      margin-left: 4%;
+    }
+}
+
 .carousel-image {
     width: 100%;
     height: 50em;
     background-repeat: repeat-x;
 }
 
-.nav-link
-{
-  display: inline-block;
-  text-decoration: none;
-  margin-bottom: 3px;
-  position: relative;
-}
-.nav-link::after
-{
-  content: '';
-  display: block;
-  margin: auto;
-  height: 3px;
-  width: 0px;
-  background: transparent;
-  transition:  width .3s ease, background-color .3s ease;
-}
-.nav-link:hover::after
-{
-  width: 100%;
-  background: black;
+.nav-link {
+    display: inline-block;
+    text-decoration: none;
+    margin-bottom: 3px;
+    position: relative;
 }
 
-.product .input-group input{
-  text-align: center;
-}
-.product .input-group span
-{
-  cursor: pointer;
+
+.product .input-group input {
+    text-align: center;
 }
 
-.product
-{
-  position: relative;
+.product .input-group span {
+    cursor: pointer;
 }
-.product .input-group
-{
-  position: absolute;
-  bottom: 5px;
-  width: 90%;
-  left: 5%;
+
+.product {
+    position: relative;
 }
-#slider-range
-{
-  margin-bottom: 20px;
-  position: relative;
+
+.product .input-group {
+    position: absolute;
+    bottom: 5px;
+    width: 90%;
+    left: 5%;
 }
-#slider-range p
-{
-  position: absolute;
-  top: 100%;
+
+#slider-range {
+    margin-bottom: 20px;
+    position: relative;
 }
-#slider-range p:hover{
-  color: black;
+
+#slider-range p {
+    position: absolute;
+    top: 100%;
 }
-#slider-range p:active
-{
-  color: black;
+
+#slider-range p:hover {
+    color: black;
 }
-.filtercategories
-{
-  position: absolute;
-  z-index: 9999;
-  width: 17%;
+
+#slider-range p:active {
+    color: black;
 }
