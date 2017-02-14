@@ -8,22 +8,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="css/style.css" rel="stylesheet" type="text/css"/>
+    <script src="js/navbar.js"></script>
     <title>Oxylus</title>
   </head>
   <body>
-    <!-- Navbar -->
-    <nav class="navbar static-top navbar-toggleable-md navbar-light bg-faded">
-      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#mainNavbar" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <a class="navbar-brand" href="#">Oxylus</a>
-      <div class="collapse navbar-collapse" id="mainNavbar">
-        <div class="navbar-nav">
-          <a class="nav-item nav-link active" href="index.php">Home</a>
-          <a class="nav-item nav-link" href="storelist.php">Shop</a>
-        </div>
-      </div>
-    </nav>
     <!--Carousel -->
     <div id="mainCarousel" class="carousel slide" data-ride="carousel" style="height: 50em; overflow: hidden;">
       <ol class="carousel-indicators">

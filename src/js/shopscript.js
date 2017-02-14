@@ -25,7 +25,7 @@ function printShopHTML(shopID, filterID) {
 }
 
 function printShopData(id) {
-    var html = '<div class="d-flex flex-wrap align-content-end flex-row">';
+    var html = '<div class="d-flex flex-wrap flex-row">';
     $.each(shopData, function(key, val) {
         html += '<div class="card product p-2" id="product' + val.ProductID + '">';
         html += '<img class="card-img-top' + val.ProductID + '" src="' + val.ProductImagePath + '" alt="' + val.ProductName + '" onclick="storeItem(' + val.ProductID + ');" style="height: 12em; width: 100%">';
@@ -33,26 +33,20 @@ function printShopData(id) {
         html += '<h4 class="card-title' + val.ProductID + '" onclick="storeItem(' + val.ProductID + ');">' + val.ProductName + '</h4>';
         html += '<h6 class="card subtitle mb-2 text-muted clickable' + val.ProductID + '">' + currencyUnit + val.ProductPrice + '</h6>';
         html += '<p class="card-text' + val.ProductID + '">' + val.ProductBasicDescription + '</p>';
-        html += '<div class="input-group"><span class="input-group-addon" id="add-quantity' + val.ProductID + '" onclick="increaseQuantity(' + val.ProductID + ');">+</span><input type="text" value="1" id="quantity' + val.ProductID + '" class="form-control" aria-describedby="add-quantity' + val.ProductID + '"><span class="input-group-addon" id="remove-quantity' + val.ProductID + '" onclick="decreaseQuantity(' + val.ProductID + ');">-</span>';
-        html += '<div class="input-group-btn"><button onclick="addToBasket(' + val.ProductID + ');" class="btn btn-primary p-2" style="cursor: pointer;">Add to Basket</button></div></div>';
+        //html += '<div class="input-group"><span class="input-group-addon" id="add-quantity' + val.ProductID + '" onclick="increaseQuantity(' + val.ProductID + ');">+</span><input type="text" value="1" id="quantity' + val.ProductID + '" class="form-control" aria-describedby="add-quantity' + val.ProductID + '"><span class="input-group-addon" id="remove-quantity' + val.ProductID + '" onclick="decreaseQuantity(' + val.ProductID + ');">-</span>';
+        //html += '<div class="input-group-btn"><button onclick="addToBasket(' + val.ProductID + ', false);" class="btn btn-primary p-2" style="cursor: pointer;">Add to Basket</button></div></div>';
         html += '</div></div>';
     });
     html += '</div>';
     $(id).html(html);
     resizeCards(id);
-    printBasket();
 }
 
 function storeItem(id) {
     window.location.href = "storeitem.php?id=" + id;
 }
 
-function printBasket() {
-    var basket = JSON.parse(localStorage.getItem("basket"));
-    $("#basket").html('<span class="badge badge-default">' + basket.length + "</span> Basket");
-}
-
-function addToBasket(id) {
+function addToBasket(id, redirect) {
     basket = null;
     if (localStorage.getItem("basket") != null) {
         basket = JSON.parse(localStorage.getItem("basket"));
@@ -85,7 +79,78 @@ function addToBasket(id) {
         });
         localStorage.setItem("basket", JSON.stringify(basket));
     }
-    $("#basket").html('<span class="badge badge-default">' + basket.length + "</span> Basket");
+    if (redirect) {
+        window.location.href = "basket.php";
+    } else {
+        $("#basket").html('<span class="badge badge-default">' + basket.length + "</span> Basket");
+    }
+
+}
+
+function deleteFromBasket(id) {
+    var basket = JSON.parse(localStorage.getItem("basket"));
+    var index = 0;
+    $.each(basket, function(key, val) {
+        if (val.id == id) {
+            index = key;
+        }
+    });
+    basket.splice(index, 1);
+    localStorage.setItem("basket", JSON.stringify(basket));
+    if (basket.length > 0) {
+        $("#navbasket").html('<span class="badge badge-default">' + basket.length + "</span> Basket");
+    } else {
+        $("#navbasket").html("Basket");
+    }
+    printBasketHTML();
+
+}
+
+function printBasketHTML() {
+    var basket = JSON.parse(localStorage.getItem("basket"));
+    $(document).ready(function() {
+        var ids = [];
+        var quantities = [];
+        $.each(basket, function(key, val) {
+            ids.push(val.id);
+            quantities[val.id] = val.quantity;
+        });
+        $.ajax({
+            url: "php/pullallproducts.php",
+            method: "get",
+            dataType: "json",
+            data: {
+                ids: JSON.stringify(ids)
+            },
+            success: function(callback) {
+                var html = '<div class="card">';
+                html += '<h3 class="card-header">Shopping Basket</h3>';
+                html += '<div class="card-block">';
+                html += '<ul class="list-unstyled">';
+                var total = 0.0;
+                $.each(callback, function(key, val) {
+                    var price = parseFloat(val.ProductPrice);
+                    price = price * quantities[val.ProductID];
+                    total += price;
+                    price = currencyUnit + price;
+                    html += '<li class="media">';
+                    html += '<img class="d-flex align-self-center mr-3" src="' + val.ProductImagePath + '" alt="' + val.ProductName + '" width="96" height="60">';
+                    html += '<div class="media-body">';
+                    html += '<h5 class="mt-0">' + val.ProductName + '</h5>';
+                    html += '<div class="input-group"><span class="input-group-addon" id="add-quantity' + val.ProductID + '" onclick="increaseQuantity(' + val.ProductID + ');">+</span><input type="text" id="quantity' + val.ProductID + '" value="' + quantities[val.ProductID] + '" class="form-control" aria-describedby="add-quantity' + val.ProductID + '" style="text-align: center;"><span class="input-group-addon" id="remove-quantity' + val.ProductID + '" onclick="decreaseQuantity(' + val.ProductID + ');">-</span><div class="input-group-btn"><button onclick="deleteFromBasket(' + val.ProductID + ');" class="btn btn-danger">Delete</button></div>';
+                    html += '<strong class="align-self-center p-2">' + price + '</strong>';
+                    html += '</li>';
+                    $("#quantity" + val.ProductID).val(quantities[val.ProductID]);
+                });
+                html += '</ul></div></div>';
+                html += '<div class="card" style="float: right; width: 30%; text-align: right;">';
+                html += '<div class="card-block">';
+                total = currencyUnit + total;
+                html += '<strong class="card-text">Total: ' + total + '</strong></div></div>';
+                $("#mainBasket").html(html);
+            }
+        });
+    });
 }
 
 
@@ -191,8 +256,8 @@ function increaseQuantity(id) {
 
 function decreaseQuantity(id) {
     var text = parseInt($('#quantity' + id).val());
-    if (text <= 0) {
-        $('#quantity' + id).val("0");
+    if (text <= 1) {
+        $('#quantity' + id).val("1");
     } else {
         $('#quantity' + id).val(text - 1);
     }

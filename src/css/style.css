@@ -6,10 +6,9 @@
     }
     .filtercategories {
         position: absolute;
-        z-index: 9999;
         width: 17%;
     }
-    .nav-link::after {
+    .navbar .nav-link::after {
         content: '';
         display: block;
         margin: auto;
@@ -19,7 +18,7 @@
         transition: width .3s ease, background-color .3s ease;
     }
 
-    .nav-link:hover::after {
+    .navbar .nav-link:hover::after {
         width: 100%;
         background: black;
     }
@@ -47,7 +46,7 @@
     background-repeat: repeat-x;
 }
 
-.nav-link {
+.navbar .nav-link {
     display: inline-block;
     text-decoration: none;
     margin-bottom: 3px;
