@@ -17,10 +17,16 @@
         background: transparent;
         transition: width .3s ease, background-color .3s ease;
     }
-
     .navbar .nav-link:hover::after {
         width: 100%;
         background: black;
+    }
+    #mainCarousel {
+        height: 45em;
+    }
+    #mainCarousel .carousel-caption {
+        right: 35%;
+        left: 35%;
     }
 }
 
@@ -35,15 +41,106 @@
         width: 96%;
         display: block;
     }
-    .product{
-      margin-left: 4%;
+    .product {
+        margin-left: 4%;
+    }
+    #mainCarousel {
+        height: 27em;
+    }
+    #mainCarousel .carousel-caption {
+        right: 25%;
+        left: 25%;
+    }
+    .btn-bottom {
+        margin-bottom: 5em;
     }
 }
 
-.carousel-image {
+@media (max-width: 767px) {
+    #mainCarousel {
+        height: 11em;
+    }
+    #mainCarousel .carousel-caption {
+        right: 15%;
+        left: 15%;
+    }
+}
+
+#mainCarousel .carousel-image {
     width: 100%;
-    height: 50em;
-    background-repeat: repeat-x;
+    height: 56.25%;
+    margin-top: -10%;
+    width: 100%;
+    filter: grayscale(75%);
+    /*animation-name: image-animation;
+    animation-duration: 15s;*/
+}
+
+@keyframes image-animation {
+    from {
+        margin-top: -12.25%;
+    }
+    to {
+        margin-top: -17.25%;
+    }
+}
+
+.no-padding {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+#mainCarousel {
+    overflow: hidden;
+}
+
+.mainpromo {
+    margin-top: 20%;
+    text-align: center;
+}
+
+.mainimage {
+    overflow: hidden;
+}
+
+.mainimage img {
+    width: 100%;
+    display: flex;
+}
+
+.mainpromo-left {
+    background-color: #F3F3F3;
+}
+
+.mainpromo-right {
+    background-color: #EBEBEB;
+}
+
+.mainimage-left {
+    text-align: left;
+    background-color: #EBEBEB;
+}
+
+.rotate-270 {
+    -ms-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -webkit-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    transform: rotate(270deg);
+}
+
+.mainimage-right {
+    align-content: right;
+    background-color: #F3F3F3;
+}
+
+#mainCarousel .carousel-caption {
+    background-color: white;
+    border: black solid 5px;
+    opacity: 0.75;
+    color: black;
+    top: 25%;
+    height: 12%;
 }
 
 .navbar .nav-link {
@@ -52,7 +149,6 @@
     margin-bottom: 3px;
     position: relative;
 }
-
 
 .product .input-group input {
     text-align: center;

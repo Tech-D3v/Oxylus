@@ -146,13 +146,17 @@ function printBasketHTML() {
                 html += '<div class="card" style="float: right; width: 30%; text-align: right;">';
                 html += '<div class="card-block">';
                 total = currencyUnit + total;
-                html += '<strong class="card-text">Total: ' + total + '</strong></div></div>';
+                html += '<strong class="card-text">Total: ' + total + '</strong><button class="btn btn-success" onclick="checkoutForm();">Checkout</button></div></div>';
                 $("#mainBasket").html(html);
             }
         });
     });
 }
 
+
+function checkoutForm() {
+
+}
 
 function getCategories(id) {
     $.each(shopData, function(key, val) {
@@ -223,7 +227,18 @@ function filterOut(filters, price1, price2, text) {
         var price = parseFloat(val.ProductPrice);
         if (val.ProductName.includes(text) || val.ProductBasicDescription.includes(text)) {
             if (price >= price1 && price <= price2) {
-                if (filters.indexOf(val.ProductCategory) == -1 && filters[0] != null) {
+                var filtered = false;
+                var activeCats = val.ProductCategory.split(",");
+                if (filters[0] == null) {
+                    filtered = true;
+                } else {
+                    $.each(activeCats, function(key1, val1) {
+                        if (filters.indexOf(val1) != -1) {
+                            filtered = true;
+                        }
+                    });
+                }
+                if (!filtered) {
                     $('#product' + val.ProductID).css("display", "none");
                 } else {
                     $('#product' + val.ProductID).css("display", "inline-block");
@@ -261,4 +276,18 @@ function decreaseQuantity(id) {
     } else {
         $('#quantity' + id).val(text - 1);
     }
+}
+parseInt($('#quantity' + id).val());
+if (text <= 1) {
+    $('#quantity' + id).val("1");
+} else {
+    $('#quantity' + id).val(text - 1);
+}
+}
+id).val());
+if (text <= 1) {
+    $('#quantity' + id).val("1");
+} else {
+    $('#quantity' + id).val(text - 1);
+}
 }

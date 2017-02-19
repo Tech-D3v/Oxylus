@@ -122,8 +122,10 @@ function loginActivate(response) {
 
 function printBasket() {
     var basket = JSON.parse(localStorage.getItem("basket"));
-    if (basket.length > 0) {
-        $("#navbasket").html('<span class="badge badge-default">' + basket.length + "</span> Basket");
+    if (basket != null) {
+        if (basket.length > 0) {
+            $("#navbasket").html('<span class="badge badge-default">' + basket.length + "</span> Basket");
+        }
     }
 }
 
